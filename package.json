@@ -1,9 +1,9 @@
 {
-  "name": "topheman/vite-react-ts-template",
+  "name": "memory-phonenumbers",
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "description": "A starter template for frontend projects.",
+  "description": "Train your memory with phonenumbers",
   "author": "Christophe Rosset",
   "license": "MIT",
   "repository": {
