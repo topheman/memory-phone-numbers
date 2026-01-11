@@ -49,9 +49,11 @@ export function ContactForm({ contact, onSave, onCancel }: ContactFormProps) {
       className={`
         fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4
       `}
+      onClick={onCancel}
     >
       <form
         onSubmit={handleSubmit}
+        onClick={(e) => e.stopPropagation()}
         className="w-full max-w-sm rounded-2xl bg-gray-800 p-6"
       >
         <h2 className="mb-6 text-xl font-semibold text-white">
