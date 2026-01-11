@@ -1,4 +1,5 @@
 import type { Contact } from "../types/contact";
+import { generateUUID } from "../utils/uuid";
 
 const STORAGE_KEY = "memory-phonenumbers-contacts";
 
@@ -21,7 +22,7 @@ export const contactStorage = {
     const contacts = this.getAll();
     const newContact: Contact = {
       ...contact,
-      id: crypto.randomUUID(),
+      id: generateUUID(),
     };
     contacts.push(newContact);
     this.save(contacts);
