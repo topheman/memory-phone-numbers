@@ -89,13 +89,26 @@ export function ContactList({ onNavigate }: ContactListProps) {
         onClick={() => setIsAdding(true)}
         className={`
           fixed right-6 bottom-6 z-10 flex h-14 w-14 items-center justify-center
-          rounded-full bg-blue-600 text-2xl text-white shadow-lg transition-all
+          rounded-full bg-blue-600 text-white shadow-lg transition-all
           hover:bg-blue-500
           active:scale-90
         `}
         aria-label="Add contact"
       >
-        +
+        <svg
+          className="h-6 w-6"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="3"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M12 5v14M5 12h14"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
       </button>
 
       {/* Modal */}
