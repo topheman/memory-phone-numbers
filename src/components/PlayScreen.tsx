@@ -41,7 +41,6 @@ export function PlayScreen({ onNavigate }: PlayScreenProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [userInput, setUserInput] = useState("");
   const [gameState, setGameState] = useState<GameState>("playing");
-  const [score, setScore] = useState({ correct: 0, total: 0 });
 
   // Reset game state when contacts length changes (new contacts added/removed)
   if (contacts.length !== lastContactsLength) {
@@ -63,7 +62,6 @@ export function PlayScreen({ onNavigate }: PlayScreenProps) {
     setCurrentIndex(0);
     setUserInput("");
     setGameState("playing");
-    setScore({ correct: 0, total: 0 });
   }, []);
 
   const handleCheck = () => {
@@ -74,10 +72,6 @@ export function PlayScreen({ onNavigate }: PlayScreenProps) {
     const isCorrect = normalize(userInput) === normalize(currentContact.number);
 
     setGameState(isCorrect ? "correct" : "incorrect");
-    setScore((prev) => ({
-      correct: prev.correct + (isCorrect ? 1 : 0),
-      total: prev.total + 1,
-    }));
   };
 
   const handleNext = () => {
@@ -162,12 +156,6 @@ export function PlayScreen({ onNavigate }: PlayScreenProps) {
         <h1 className="text-xl font-semibold text-white">Play</h1>
         <span className="ml-auto text-sm text-gray-500">{progress}</span>
       </header>
-
-      {/* Score */}
-      <div className="flex justify-center gap-6 py-2 text-sm">
-        <span className="text-emerald-400">✓ {score.correct}</span>
-        <span className="text-red-400">✗ {score.total - score.correct}</span>
-      </div>
 
       {/* Game Area */}
       <form
