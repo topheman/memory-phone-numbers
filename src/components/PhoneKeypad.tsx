@@ -4,6 +4,7 @@ interface PhoneKeypadProps {
   value: string;
   onChange: (value: string) => void;
   disabled?: boolean;
+  onEnter?: () => void;
 }
 
 const keys = [
@@ -13,7 +14,12 @@ const keys = [
   ["+", "0", "⌫"],
 ];
 
-export function PhoneKeypad({ value, onChange, disabled }: PhoneKeypadProps) {
+export function PhoneKeypad({
+  value,
+  onChange,
+  disabled,
+  onEnter,
+}: PhoneKeypadProps) {
   const [activeKey, setActiveKey] = useState<string | null>(null);
 
   const handleKeyPress = (key: string) => {
@@ -44,8 +50,6 @@ export function PhoneKeypad({ value, onChange, disabled }: PhoneKeypadProps) {
   };
 
   useEffect(() => {
-    if (disabled) return;
-
     const handleKeyDown = (e: KeyboardEvent) => {
       // Ignore if user is typing in an input field
       if (
@@ -54,6 +58,18 @@ export function PhoneKeypad({ value, onChange, disabled }: PhoneKeypadProps) {
       ) {
         return;
       }
+
+      // Handle Enter key (always, even when disabled)
+      if (e.key === "Enter") {
+        e.preventDefault();
+        if (onEnter) {
+          onEnter();
+        }
+        return;
+      }
+
+      // Only handle other keys when not disabled
+      if (disabled) return;
 
       const keypadKey = mapKeyboardToKeypad(e.key);
       if (keypadKey) {
@@ -83,7 +99,7 @@ export function PhoneKeypad({ value, onChange, disabled }: PhoneKeypadProps) {
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("keyup", handleKeyUp);
     };
-  }, [disabled, value, onChange]);
+  }, [disabled, value, onChange, onEnter]);
 
   return (
     <div className="grid grid-cols-3 gap-3">

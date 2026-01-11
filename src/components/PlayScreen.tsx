@@ -95,6 +95,23 @@ export function PlayScreen({ onNavigate }: PlayScreenProps) {
     initGame();
   };
 
+  const handleSubmit = () => {
+    if (gameState === "playing") {
+      // If "Check" is displayed, trigger check
+      if (userInput.trim()) {
+        handleCheck();
+      }
+    } else {
+      // If "Next" is displayed, trigger next
+      handleNext();
+    }
+  };
+
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    handleSubmit();
+  };
+
   const isGameFinished =
     currentIndex === shuffledContacts.length - 1 && gameState !== "playing";
   const progress = shuffledContacts.length
@@ -153,7 +170,8 @@ export function PlayScreen({ onNavigate }: PlayScreenProps) {
       </div>
 
       {/* Game Area */}
-      <div
+      <form
+        onSubmit={handleFormSubmit}
         className={`flex flex-1 flex-col items-center justify-center gap-6 p-6`}
       >
         {currentContact && (
@@ -201,6 +219,7 @@ export function PlayScreen({ onNavigate }: PlayScreenProps) {
                 value={userInput}
                 onChange={setUserInput}
                 disabled={gameState !== "playing"}
+                onEnter={handleSubmit}
               />
             </div>
 
@@ -209,6 +228,7 @@ export function PlayScreen({ onNavigate }: PlayScreenProps) {
               {gameState === "playing" ? (
                 <>
                   <button
+                    type="button"
                     onClick={handleShuffle}
                     className={`
                       flex-1 rounded-xl bg-gray-700 px-4 py-3 font-medium
@@ -220,7 +240,7 @@ export function PlayScreen({ onNavigate }: PlayScreenProps) {
                     🔀 Shuffle
                   </button>
                   <button
-                    onClick={handleCheck}
+                    type="submit"
                     disabled={!userInput}
                     className={`
                       flex-1 rounded-xl px-4 py-3 font-medium transition-colors
@@ -240,7 +260,7 @@ export function PlayScreen({ onNavigate }: PlayScreenProps) {
                 </>
               ) : (
                 <button
-                  onClick={handleNext}
+                  type="submit"
                   className={`
                     w-full rounded-xl bg-blue-600 px-4 py-3 font-medium
                     text-white transition-colors
@@ -254,7 +274,7 @@ export function PlayScreen({ onNavigate }: PlayScreenProps) {
             </div>
           </>
         )}
-      </div>
+      </form>
     </div>
   );
 }
