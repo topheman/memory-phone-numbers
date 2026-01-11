@@ -13,6 +13,28 @@ export function ContactForm({ contact, onSave, onCancel }: ContactFormProps) {
   const [name, setName] = useState(contact?.name ?? "");
   const [number, setNumber] = useState(contact?.number ?? "");
 
+  const sanitizePhoneNumber = (value: string): string => {
+    // Keep only + at the start and digits
+    const cleaned = value.replace(/[^\d+]/g, "");
+    // Ensure + is only at the beginning
+    if (cleaned.startsWith("+")) {
+      return "+" + cleaned.slice(1).replace(/[^\d]/g, "");
+    }
+    return cleaned.replace(/[^\d]/g, "");
+  };
+
+  const handleNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const sanitized = sanitizePhoneNumber(e.target.value);
+    setNumber(sanitized);
+  };
+
+  const handleNumberPaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    const pastedText = e.clipboardData.getData("text");
+    const sanitized = sanitizePhoneNumber(pastedText);
+    setNumber(sanitized);
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (name.trim() && number.trim()) {
@@ -63,7 +85,8 @@ export function ContactForm({ contact, onSave, onCancel }: ContactFormProps) {
             id="number"
             type="tel"
             value={number}
-            onChange={(e) => setNumber(e.target.value)}
+            onChange={handleNumberChange}
+            onPaste={handleNumberPaste}
             placeholder="+1 234 567 8900"
             className={`
               w-full rounded-xl bg-gray-700 px-4 py-3 text-white
