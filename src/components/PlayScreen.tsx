@@ -89,6 +89,11 @@ export function PlayScreen({ onNavigate }: PlayScreenProps) {
     setGameState(isCorrect ? "correct" : "incorrect");
   };
 
+  const handleRetry = () => {
+    setUserInput("");
+    setGameState("playing");
+  };
+
   const handleNext = () => {
     if (currentIndex < shuffledContacts.length - 1) {
       setCurrentIndex((prev) => prev + 1);
@@ -176,7 +181,22 @@ export function PlayScreen({ onNavigate }: PlayScreenProps) {
           ←
         </button>
         <h1 className="text-xl font-semibold text-white">Play</h1>
-        <span className="ml-auto text-sm text-gray-500">{progress}</span>
+        <div className="ml-auto flex items-center gap-3">
+          {gameState === "playing" && (
+            <button
+              onClick={handleShuffle}
+              className={`
+                rounded-lg bg-gray-800 p-2 text-white transition-colors
+                hover:bg-gray-700
+              `}
+              aria-label="Shuffle contacts"
+              title="Shuffle contacts"
+            >
+              🔀
+            </button>
+          )}
+          <span className="text-sm text-gray-500">{progress}</span>
+        </div>
       </header>
 
       {/* Game Area */}
@@ -236,10 +256,29 @@ export function PlayScreen({ onNavigate }: PlayScreenProps) {
             {/* Action Buttons */}
             <div className="flex w-full max-w-xs gap-3">
               {gameState === "playing" ? (
+                <button
+                  type="submit"
+                  disabled={!userInput}
+                  className={`
+                    w-full rounded-xl px-4 py-3 font-medium transition-colors
+                    active:scale-95
+                    ${
+                      userInput
+                        ? `
+                          bg-emerald-600 text-white
+                          hover:bg-emerald-500
+                        `
+                        : "cursor-not-allowed bg-gray-700 text-gray-500"
+                    }
+                  `}
+                >
+                  ✓ Check
+                </button>
+              ) : gameState === "incorrect" ? (
                 <>
                   <button
                     type="button"
-                    onClick={handleShuffle}
+                    onClick={handleRetry}
                     className={`
                       flex-1 rounded-xl bg-gray-700 px-4 py-3 font-medium
                       text-white transition-colors
@@ -247,30 +286,25 @@ export function PlayScreen({ onNavigate }: PlayScreenProps) {
                       active:scale-95
                     `}
                   >
-                    🔀 Shuffle
+                    🔄 Retry
                   </button>
                   <button
-                    type="submit"
-                    disabled={!userInput}
+                    type="button"
+                    onClick={handleNext}
                     className={`
-                      flex-1 rounded-xl px-4 py-3 font-medium transition-colors
+                      flex-1 rounded-xl bg-blue-600 px-4 py-3 font-medium
+                      text-white transition-colors
+                      hover:bg-blue-500
                       active:scale-95
-                      ${
-                        userInput
-                          ? `
-                            bg-emerald-600 text-white
-                            hover:bg-emerald-500
-                          `
-                          : "cursor-not-allowed bg-gray-700 text-gray-500"
-                      }
                     `}
                   >
-                    ✓ Check
+                    → Next
                   </button>
                 </>
               ) : (
                 <button
-                  type="submit"
+                  type="button"
+                  onClick={handleNext}
                   className={`
                     w-full rounded-xl bg-blue-600 px-4 py-3 font-medium
                     text-white transition-colors
