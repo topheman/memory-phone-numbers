@@ -3,7 +3,10 @@ import { useCallback, useMemo, useState } from "react";
 import { useContacts } from "../hooks/useContacts";
 import { countryStorage } from "../services/countryStorage";
 import type { Screen } from "../types/contact";
-import { formatPhoneNumber } from "../utils/phoneFormat";
+import {
+  formatPhoneNumber,
+  normalizePhoneNumberForComparison,
+} from "../utils/phoneFormat";
 
 import { PhoneKeypad } from "./PhoneKeypad";
 
@@ -69,9 +72,19 @@ export function PlayScreen({ onNavigate }: PlayScreenProps) {
   const handleCheck = () => {
     if (!currentContact || gameState !== "playing") return;
 
-    // Normalize for comparison (remove spaces, dashes, parentheses)
-    const normalize = (s: string) => s.replace(/[\s\-()]/g, "");
-    const isCorrect = normalize(userInput) === normalize(currentContact.number);
+    const country = countryStorage.getCountry();
+
+    // Normalize both numbers using formatPhoneNumber and removing special chars (except +)
+    const normalizedStored = normalizePhoneNumberForComparison(
+      currentContact.number,
+      country,
+    );
+    const normalizedInput = normalizePhoneNumberForComparison(
+      userInput,
+      country,
+    );
+
+    const isCorrect = normalizedInput === normalizedStored;
 
     setGameState(isCorrect ? "correct" : "incorrect");
   };

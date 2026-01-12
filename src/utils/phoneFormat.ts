@@ -67,3 +67,22 @@ export function formatPhoneNumber(
 
   return number;
 }
+
+/**
+ * Normalize a phone number for comparison by formatting it and removing
+ * all special characters except '+'.
+ * This ensures that numbers like "0102030405" and "+33102030405" match
+ * when they represent the same number.
+ */
+export function normalizePhoneNumberForComparison(
+  number: string,
+  selectedCountry: CountryCode,
+): string {
+  if (!number) return "";
+
+  // First format the number using the library
+  const formatted = formatPhoneNumber(number, selectedCountry);
+
+  // Then remove all special characters except '+'
+  return formatted.replace(/[^\d+]/g, "");
+}
