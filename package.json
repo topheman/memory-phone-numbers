@@ -38,6 +38,7 @@
     "bootstrap": "./scripts/bootstrap.ts"
   },
   "dependencies": {
+    "libphonenumber-js": "^1.12.34",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "vite-plugin-pwa": "^1.2.0"

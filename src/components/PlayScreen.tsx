@@ -1,7 +1,9 @@
 import { useCallback, useMemo, useState } from "react";
 
 import { useContacts } from "../hooks/useContacts";
+import { countryStorage } from "../services/countryStorage";
 import type { Screen } from "../types/contact";
+import { formatPhoneNumber } from "../utils/phoneFormat";
 
 import { PhoneKeypad } from "./PhoneKeypad";
 
@@ -134,6 +136,13 @@ export function PlayScreen({ onNavigate }: PlayScreenProps) {
     );
   }
 
+  // Format phone numbers for display
+  const country = countryStorage.getCountry();
+  const formattedCorrectAnswer = currentContact
+    ? formatPhoneNumber(currentContact.number, country)
+    : "";
+  const formattedUserInput = formatPhoneNumber(userInput, country);
+
   return (
     <div className="flex min-h-screen flex-col bg-gray-900">
       {/* Header */}
@@ -186,7 +195,7 @@ export function PlayScreen({ onNavigate }: PlayScreenProps) {
                 }
               `}
             >
-              {userInput || (
+              {formattedUserInput || (
                 <span className="text-gray-600">Enter number...</span>
               )}
             </div>
@@ -196,7 +205,7 @@ export function PlayScreen({ onNavigate }: PlayScreenProps) {
               <div className="text-center">
                 <p className="text-sm text-gray-500">Correct answer:</p>
                 <p className="font-mono text-lg text-emerald-400">
-                  {currentContact.number}
+                  {formattedCorrectAnswer}
                 </p>
               </div>
             )}

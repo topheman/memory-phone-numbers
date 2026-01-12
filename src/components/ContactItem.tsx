@@ -1,4 +1,6 @@
+import { countryStorage } from "../services/countryStorage";
 import type { Contact } from "../types/contact";
+import { formatPhoneNumber } from "../utils/phoneFormat";
 
 interface ContactItemProps {
   contact: Contact;
@@ -7,13 +9,18 @@ interface ContactItemProps {
 }
 
 export function ContactItem({ contact, onEdit, onDelete }: ContactItemProps) {
+  const formattedNumber = formatPhoneNumber(
+    contact.number,
+    countryStorage.getCountry(),
+  );
+
   return (
     <div
       className={`flex items-center justify-between rounded-xl bg-gray-800 p-4`}
     >
       <div className="min-w-0 flex-1">
         <p className="truncate font-medium text-white">{contact.name}</p>
-        <p className="truncate text-sm text-gray-400">{contact.number}</p>
+        <p className="truncate text-sm text-gray-400">{formattedNumber}</p>
       </div>
 
       <div className="ml-4 flex gap-2">

@@ -1,4 +1,10 @@
+import { useState } from "react";
+
+import { countryStorage } from "../services/countryStorage";
 import type { Screen } from "../types/contact";
+import type { CountryCode } from "../utils/phoneFormat";
+
+import { CountrySelector } from "./CountrySelector";
 
 interface SplashScreenProps {
   onNavigate: (screen: Screen) => void;
@@ -6,6 +12,15 @@ interface SplashScreenProps {
 }
 
 export function SplashScreen({ onNavigate, hasContacts }: SplashScreenProps) {
+  const [country, setCountry] = useState<CountryCode>(() =>
+    countryStorage.getCountry(),
+  );
+
+  const handleCountryChange = (code: CountryCode) => {
+    setCountry(code);
+    countryStorage.setCountry(code);
+  };
+
   return (
     <div
       className={`
@@ -19,6 +34,8 @@ export function SplashScreen({ onNavigate, hasContacts }: SplashScreenProps) {
         </h2>
         <p className="mt-2 text-gray-400">Train your memory!</p>
       </div>
+
+      <CountrySelector value={country} onChange={handleCountryChange} />
 
       <div className="flex w-full max-w-xs flex-col gap-4">
         <button
