@@ -1,4 +1,4 @@
-# memory-phonenumbers
+# memory-phone-numbers
 
 Learn and memorize phone numbers with a memory game.
 

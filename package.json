@@ -1,9 +1,9 @@
 {
-  "name": "memory-phonenumbers",
+  "name": "memory-phone-numbers",
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "description": "Train your memory with phonenumbers",
+  "description": "Train your memory with phone numbers",
   "author": "Christophe Rosset",
   "license": "MIT",
   "repository": {
