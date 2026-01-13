@@ -276,7 +276,7 @@ export function PlayScreen({ onNavigate }: PlayScreenProps) {
                 >
                   ✓ Check
                 </button>
-              ) : gameState === "incorrect" ? (
+              ) : (
                 <>
                   <button
                     type="button"
@@ -300,22 +300,9 @@ export function PlayScreen({ onNavigate }: PlayScreenProps) {
                       active:scale-95
                     `}
                   >
-                    → Next
+                    {isGameFinished ? "🔄 Start Over" : "→ Next"}
                   </button>
                 </>
-              ) : (
-                <button
-                  type="button"
-                  onClick={handleNext}
-                  className={`
-                    w-full rounded-xl bg-blue-600 px-4 py-3 font-medium
-                    text-white transition-colors
-                    hover:bg-blue-500
-                    active:scale-95
-                  `}
-                >
-                  {isGameFinished ? "🔄 Start Over" : "→ Next"}
-                </button>
               )}
             </div>
           </>
