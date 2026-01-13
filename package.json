@@ -8,11 +8,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/topheman/vite-react-ts-template"
+    "url": "https://github.com/topheman/memory-phone-numbers"
   },
-  "homepage": "https://github.com/topheman/vite-react-ts-template",
+  "homepage": "https://memory-phone-numbers.vercel.app",
   "bugs": {
-    "url": "https://github.com/topheman/vite-react-ts-template/issues"
+    "url": "https://github.com/topheman/memory-phone-numbers/issues"
   },
   "keywords": [
     "vite",
@@ -39,6 +39,7 @@
   },
   "dependencies": {
     "libphonenumber-js": "^1.12.34",
+    "qrcode.react": "^4.2.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "vite-plugin-pwa": "^1.2.0"

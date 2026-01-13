@@ -37,7 +37,8 @@ body {
 /* Touch-friendly input styling */
 input[type="tel"],
 input[type="text"] {
-  font-size: 16px; /* Prevent iOS zoom on focus */
+  font-size: 16px;
+  /* Prevent iOS zoom on focus */
 }
 
 /* Button touch feedback */
@@ -48,8 +49,11 @@ button {
 }
 
 /* Ensure minimum touch target size */
-button,
-[role="button"] {
-  min-height: 44px;
-  min-width: 44px;
+@layer utilities {
+
+  button,
+  [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
 }

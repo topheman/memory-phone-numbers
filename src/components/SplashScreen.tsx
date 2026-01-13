@@ -1,5 +1,7 @@
+import { QRCodeSVG } from "qrcode.react";
 import { useState } from "react";
 
+import githubIcon from "../assets/github.svg";
 import { countryStorage } from "../services/countryStorage";
 import type { Screen } from "../types/contact";
 import type { CountryCode } from "../utils/phoneFormat";
@@ -15,11 +17,18 @@ export function SplashScreen({ onNavigate, hasContacts }: SplashScreenProps) {
   const [country, setCountry] = useState<CountryCode>(() =>
     countryStorage.getCountry(),
   );
+  const [targetUrl] = useState<string | null>(() => {
+    const [url] = window.location.href.split("#");
+    return url;
+  });
+  const [showQrModal, setShowQrModal] = useState(false);
 
   const handleCountryChange = (code: CountryCode) => {
     setCountry(code);
     countryStorage.setCountry(code);
   };
+
+  const githubRepoUrl = "https://github.com/topheman/memory-phone-numbers";
 
   return (
     <div
@@ -74,6 +83,94 @@ export function SplashScreen({ onNavigate, hasContacts }: SplashScreenProps) {
         <p className="text-center text-sm text-gray-500">
           Add some contacts to start playing!
         </p>
+      )}
+
+      <div className="mt-8 flex items-center gap-8">
+        <a
+          href={githubRepoUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`
+            h-8 w-8 transition-opacity
+            hover:opacity-80
+          `}
+          title="GitHub Repository"
+        >
+          <img
+            src={githubIcon}
+            alt="GitHub"
+            className="h-8 w-8 brightness-0 invert"
+          />
+        </a>
+
+        {targetUrl && (
+          <button
+            onClick={() => setShowQrModal(true)}
+            className={`
+              min-h-[32px] min-w-[32px] cursor-pointer bg-white p-1
+              transition-opacity
+              hover:opacity-80
+            `}
+            title="Show QR Code"
+            type="button"
+          >
+            <QRCodeSVG
+              value={targetUrl}
+              size={32}
+              level="M"
+              fgColor="#10b981"
+              includeMargin={false}
+            />
+          </button>
+        )}
+      </div>
+
+      {showQrModal && targetUrl && (
+        <div
+          className={`
+            fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4
+          `}
+          onClick={() => setShowQrModal(false)}
+        >
+          <div
+            className={`
+              w-full max-w-sm rounded-2xl border border-gray-700 bg-gray-800 p-8
+              shadow-lg
+            `}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex flex-col items-center">
+              <div className="mb-4 rounded-lg bg-white p-4">
+                <QRCodeSVG
+                  value={targetUrl}
+                  size={256}
+                  level="M"
+                  fgColor="#10b981"
+                  includeMargin={false}
+                />
+              </div>
+              <p className="mb-4 text-center text-sm break-all text-gray-300">
+                <a
+                  href={targetUrl}
+                  rel="noopener noreferrer"
+                  className="underline"
+                >
+                  {targetUrl}
+                </a>
+              </p>
+              <button
+                onClick={() => setShowQrModal(false)}
+                className={`
+                  rounded-lg bg-gray-700 px-6 py-2 transition-colors
+                  hover:bg-gray-600
+                `}
+                type="button"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
