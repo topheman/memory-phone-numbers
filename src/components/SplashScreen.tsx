@@ -63,7 +63,7 @@ export function SplashScreen({ onNavigate, hasContacts }: SplashScreenProps) {
             }
           `}
         >
-          🎮 Play
+          <span aria-hidden="true">🧠</span> Train
         </button>
 
         <button
@@ -75,7 +75,7 @@ export function SplashScreen({ onNavigate, hasContacts }: SplashScreenProps) {
             active:scale-95
           `}
         >
-          👥 Manage Contacts
+          <span aria-hidden="true">👥</span> Manage Contacts
         </button>
       </div>
 

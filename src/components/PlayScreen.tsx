@@ -180,7 +180,9 @@ export function PlayScreen({ onNavigate }: PlayScreenProps) {
         >
           ←
         </button>
-        <h1 className="text-xl font-semibold text-white">Play</h1>
+        <h1 className="text-xl font-semibold text-white">
+          <span aria-hidden="true">🧠</span> Train
+        </h1>
         <div className="ml-auto flex items-center gap-3">
           {gameState === "playing" && (
             <button

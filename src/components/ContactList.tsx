@@ -50,7 +50,9 @@ export function ContactList({ onNavigate }: ContactListProps) {
         >
           ←
         </button>
-        <h1 className="text-xl font-semibold text-white">Contacts</h1>
+        <h1 className="text-xl font-semibold text-white">
+          <span aria-hidden="true">👥</span> Contacts
+        </h1>
         <span className="ml-auto text-sm text-gray-500">
           {contacts.length} contact{contacts.length !== 1 && "s"}
         </span>
